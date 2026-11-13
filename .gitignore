@@ -13,3 +13,7 @@ data/
 *.tsbuildinfo
 *.log
 .DS_Store
+
+server/data/*.sqlite
+server/data/*.sqlite-shm
+server/data/*.sqlite-wal

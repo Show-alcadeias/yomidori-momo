@@ -7,6 +7,11 @@ const apiProxy = { '/api': 'http://127.0.0.1:3001' };
 export default defineConfig({
   root: fileURLToPath(new URL('./client', import.meta.url)),
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./client/src', import.meta.url)),
+    },
+  },
   server: {
     host: '127.0.0.1',
     port: 5173,

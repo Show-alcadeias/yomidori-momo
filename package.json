@@ -3,6 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "imports": {
+    "#server/*": {
+      "development": "./server/src/*.ts",
+      "default": "./dist/server/*.js"
+    }
+  },
   "engines": {
     "node": ">=24.22.1 <25",
     "npm": ">=11.9.0 <12"
@@ -11,7 +17,7 @@
   "scripts": {
     "dev": "concurrently --kill-others --names client,server \"npm:dev:client\" \"npm:dev:server\"",
     "dev:client": "vite",
-    "dev:server": "node --env-file-if-exists=.env --import tsx --watch server/src/index.ts",
+    "dev:server": "node --env-file-if-exists=.env --conditions=development --import tsx --watch server/src/index.ts",
     "typecheck": "tsc -p client && tsc -p server --noEmit && tsc -p tsconfig.json",
     "lint": "eslint . --max-warnings 0",
     "build": "npm run typecheck && vite build && tsc -p server",
