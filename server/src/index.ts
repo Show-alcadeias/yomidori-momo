@@ -1,13 +1,19 @@
 import express from "express";
 
 import { initializeDatabase } from "#server/db/schema";
+import { documentsRouter } from "#server/routes/documents";
 
 initializeDatabase();
 
 const app = express();
-app.disable("x-powered-by");
 
-// 起動確認専用。文章のCRUD・DB操作・LLM接続は実装しません。
+// JSONリクエストを解析
+app.use(express.json());
+
+// 文章管理API
+app.use("/api/documents", documentsRouter);
+
+// 動作確認用
 app.get("/api/health", (_request, response) => {
   response.json({ status: "ok" });
 });

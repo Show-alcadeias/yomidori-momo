@@ -13,12 +13,37 @@ export function createDocument(title: string, content: string) {
   return result;
 }
 
-export function selectDocument() {
+export function selectDocuments() {
   const statement = db.prepare(`
     SELECT title, content FROM documents;
   `);
 
   return statement.all();
+}
+
+export function selectDocumentById(id: number) {
+  const statement = db.prepare(`
+    SELECT id, title, content
+    FROM documents
+    WHERE id = ?;
+  `);
+
+  return statement.get(id);
+}
+
+export function selectLatestDocuments(limit: number) {
+  const statement = db.prepare(`
+    SELECT id, title, content
+    FROM documents
+    ORDER BY created_at DESC, id DESC
+    LIMIT ?;
+  `);
+
+  if (!Number.isSafeInteger(limit) || limit < 1 || limit > 100) {
+    throw new RangeError("limit must be an integer between 1 and 100");
+  }
+
+  return statement.all(limit);
 }
 
 export function updateDocument(id: number, title: string, content: string) {
